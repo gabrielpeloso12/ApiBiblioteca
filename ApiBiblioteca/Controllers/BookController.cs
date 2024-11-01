@@ -18,12 +18,12 @@ namespace ApiBiblioteca.Controllers
         }
 
         #region Get
-        [HttpGet("GetBook", Name = "GetBook")]
+        [HttpGet(Name = "GetBook")]
         public async Task<IEnumerable<Livros>> GetBook()
         {
-            var author = await _bookService.GetBook();
+            var book = await _bookService.GetBook();
 
-            return author;
+            return book;
         }
 
         [HttpGet("Id/{Id}", Name = "GetBookId")]
@@ -55,6 +55,11 @@ namespace ApiBiblioteca.Controllers
         [HttpPost("PostBook", Name = "PostBook")]
         public ActionResult<Livros> PostAuthor(Livros book)
         {
+            //if (_bookService.ValidationAuthorExist())
+            //{
+
+            //}
+
             _bookService.AddBook(book);
 
             return CreatedAtAction(nameof(GetBookId), new { id = book.Id }, book);

@@ -17,7 +17,7 @@ namespace Services.Book
         #region Get
         public async Task<IList<Livros>> GetBook()
         {
-            return await _bookDAO.GetBook().ToListAsync();  
+            return await _bookDAO.GetBook().ToListAsync();
         }
 
         public async Task<Livros?> GetBookPorId(int id)
@@ -55,6 +55,13 @@ namespace Services.Book
         {
             _bookDAO.DeleteBook(book);
         }
+        #endregion
+
+        #region Other Reviews
+        //public async Task<Livros?> ValidationAuthorExist(int id)
+        //{
+
+        //}
         #endregion
     }
 }
