@@ -12,7 +12,7 @@ namespace Services.Author
 
         public void AddAuthor(Autor author);
 
-        public void AddAuthor(IEnumerable<Autor> author);
+        public void AddAuthors(IEnumerable<Autor> author);
         
         public void EditAuthor(Autor author);
 

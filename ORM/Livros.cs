@@ -10,7 +10,7 @@ namespace ORM
 
         [Required(ErrorMessage = "Campo Title obrigatorio")]
         [StringLength(40, ErrorMessage = "O Title deve conter no máximo 40 caracteres")]
-        public string Title { get; set; } = null!;
+        public string Titulo { get; set; } = null!;
 
         [Required(ErrorMessage = "Campo Author obrigatorio")]
         [StringLength(40, ErrorMessage = "O Author deve conter no máximo 40 caracteres")]

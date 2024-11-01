@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ORM
 {
@@ -14,7 +9,8 @@ namespace ORM
         }
 
         public DbSet<Autor> Autor { get; set; }
-        public DbSet<Livros> Book { get; set; }
+
+        public DbSet<Livros> Livros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

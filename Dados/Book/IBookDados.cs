@@ -5,15 +5,11 @@ namespace Dados.Book
 {
     public interface IBookDados
     {
-        public Task<IList<Livros>> GetBook();
-
-        public Task<Livros?> GetBookPorId(int id);
-
-        public Task<IEnumerable<Livros>> GetBookTittle(string titulo);
+        public DbSet<Livros> GetBook();
 
         public void AddBook(Livros book);
 
-        public void AddBooks(IEnumerable<Livros> book);
+        public void AddBooks(IEnumerable<Livros> books);
 
         public void EditBook(Livros book);
 

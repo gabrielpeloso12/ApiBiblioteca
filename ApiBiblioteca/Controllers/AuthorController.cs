@@ -68,11 +68,15 @@ namespace ApiBiblioteca.Controllers
                 return BadRequest("A lista de autores não pode estar vazia.");
             }
 
-            foreach (var author in authors)
+            try
             {
-                _authorService.AddAuthor(author);
+                _authorService.AddAuthors(authors);
             }
-
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            
             return CreatedAtAction(nameof(GetAuthor), authors);
         }
         #endregion

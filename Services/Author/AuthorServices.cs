@@ -1,7 +1,7 @@
 ﻿using Dados.Author;
 using Microsoft.EntityFrameworkCore;
 using ORM;
-using System;
+
 
 namespace Services.Author
 {
@@ -9,11 +9,12 @@ namespace Services.Author
     {
         private IAuthorDados _authorDAO;
 
-        public AuthorServices(IAuthorDados usuarioDAO)
+        public AuthorServices(IAuthorDados authorDAO)
         {
-            _authorDAO = usuarioDAO;
+            _authorDAO = authorDAO;
         }
 
+        #region Get
         public async Task<IList<Autor>> GetAuthor()
         {
             return await _authorDAO.GetAuthor().ToListAsync();
@@ -28,25 +29,32 @@ namespace Services.Author
         {
             return await _authorDAO.GetAuthor().Where(u => u.Nome == nome).ToListAsync();
         }
+        #endregion
 
+        #region Post
         public void AddAuthor(Autor author)
         {
             _authorDAO.AddAuthor(author);
         }
 
-        public void AddAuthor(IEnumerable<Autor> author)
+        public void AddAuthors(IEnumerable<Autor> author)
         {
             _authorDAO.AddAuthors(author);
         }
+        #endregion
 
+        #region Edit
         public void EditAuthor(Autor author)
         {
             _authorDAO.EditAddAuthor(author);
         }
+        #endregion
 
+        #region Delete
         public void DeleteAuthor(Autor author)
         {
             _authorDAO.DeleteAddAuthor(author);
         }
+        #endregion
     }
 }

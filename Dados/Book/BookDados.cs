@@ -1,9 +1,6 @@
-﻿using ORM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using ORM;
+
 
 namespace Dados.Book
 {
@@ -17,19 +14,9 @@ namespace Dados.Book
         }
 
         #region Get
-        public Task<IList<Livros>> GetBook()
+        public DbSet<Livros> GetBook()
         {
-
-        }
-
-        public Task<Livros?> GetBookPorId(int id)
-        {
-
-        }
-
-        public Task<IEnumerable<Livros>> GetBookTittle(string titulo)
-        {
-
+            return _contexto.Livros;
         }
         #endregion
 
@@ -37,26 +24,48 @@ namespace Dados.Book
         #region Post
         public void AddBook(Livros book)
         {
-
+            _contexto.Add(book);
+            _contexto.SaveChanges();
         }
 
-        public void AddBooks(IEnumerable<Livros> book)
+        public void AddBooks(IEnumerable<Livros> books)
         {
-
+            _contexto.Livros.AddRange(books);
+            _contexto.SaveChanges();
         }
         #endregion
 
         #region Put
         public void EditBook(Livros book)
         {
+            var bookForUpdate = GetBook().Find(book.Id);
 
+            if (bookForUpdate != null)
+            {
+                _contexto.Entry(bookForUpdate).CurrentValues.SetValues(book);
+                _contexto.SaveChanges();
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
         #endregion
 
         #region Delete
         public void DeleteBook(Livros author)
         {
+            var bookForDelete = GetBook().Find(author.Id);
 
+            if (bookForDelete != null)
+            {
+                _contexto.Remove(bookForDelete);
+                _contexto.SaveChanges();
+            }
+            else
+            {
+                throw new Exception(); 
+            }
         }
         #endregion
     }
