@@ -26,7 +26,7 @@ namespace ApiBiblioteca.Controllers
             return author;
         }
 
-        [HttpGet("Id/{Id}", Name = "GetAuthorId")]
+        [HttpGet("Id", Name = "GetAuthorId")]
         public async Task<ActionResult<Autor>> GetAuthorId(int id)
         {
             var author = await _authorService.GetAuthorPorId(id);
@@ -41,7 +41,7 @@ namespace ApiBiblioteca.Controllers
             }
         }
 
-        [HttpGet("ByName/{Nome}", Name = "GetAuthorName")]
+        [HttpGet("ByName", Name = "GetAuthorName")]
         public async Task<IEnumerable<Autor>> GetAuthorName(string nome)
         {
             var authorNome = await _authorService.GetAuthorName(nome);

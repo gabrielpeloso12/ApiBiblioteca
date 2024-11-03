@@ -47,8 +47,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddScoped<IAuthorServices, AuthorServices>();
-//builder.Services.AddScoped<IAuthorDados, AuthorDados>();
+builder.Services.AddScoped<IAuthorServices, AuthorServices>();
+builder.Services.AddScoped<IAuthorDados, AuthorDados>();
 
 builder.Services.AddScoped<IBookServices, BookServices>();
 builder.Services.AddScoped<IBookDados, BookDados>();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ORM;
 using Services.Book;
 
@@ -26,7 +27,7 @@ namespace ApiBiblioteca.Controllers
             return book;
         }
 
-        [HttpGet("Id/{Id}", Name = "GetBookId")]
+        [HttpGet("Id", Name = "GetBookId")]
         public async Task<ActionResult<Livros>> GetBookId(int id)
         {
             var author = await _bookService.GetBookPorId(id);
@@ -41,7 +42,7 @@ namespace ApiBiblioteca.Controllers
             }
         }
 
-        [HttpGet("ByTittle/{Nome}", Name = "GetBookTittle")]
+        [HttpGet("ByTittle", Name = "GetBookTittle")]
         public async Task<IEnumerable<Livros>> GetBookTittle(string tittle)
         {
             var bookNome = await _bookService.GetBookTittle(tittle);
@@ -53,12 +54,13 @@ namespace ApiBiblioteca.Controllers
 
         #region Post
         [HttpPost("PostBook", Name = "PostBook")]
-        public ActionResult<Livros> PostAuthor(Livros book)
+        public async Task<ActionResult<Livros>> PostAuthor(Livros book, int idAuthor)
         {
-            //if (_bookService.ValidationAuthorExist())
-            //{
-
-            //}
+            var autorExists = await _contexto.Autor.AnyAsync(a => a.Id == idAuthor);
+            if (!autorExists)
+            {
+                throw new ArgumentException("O autor especificado não existe.");
+            }
 
             _bookService.AddBook(book);
 
@@ -66,7 +68,7 @@ namespace ApiBiblioteca.Controllers
         }
 
         [HttpPost("PostBooks", Name = "PostBooks")]
-        public ActionResult<List<Livros>> PostAuthors(List<Livros> books)
+        public async Task<ActionResult<List<Livros>>> PostAuthors(List<Livros> books)
         {
             if (books == null || books.Count == 0)
             {
@@ -75,7 +77,15 @@ namespace ApiBiblioteca.Controllers
 
             try
             {
-                _bookService.AddBooks(books);
+                if (await _bookService.ValidationsRangeInsert(books))
+                {
+                    _bookService.AddBooks(books);
+                    
+                }
+                else
+                {
+                    return BadRequest("Código autor invalido");
+                }                
             }
             catch (Exception)
             {
@@ -88,7 +98,7 @@ namespace ApiBiblioteca.Controllers
 
         #region Put
         [HttpPut("PutBook/{id}")]
-        public async Task<IActionResult> PutBook(int id, Livros book)
+        public async Task<IActionResult> PutBook(int id, int idAutor, Livros book)
         {
             if (book == null)
             {
@@ -100,9 +110,19 @@ namespace ApiBiblioteca.Controllers
                 return BadRequest("O ID do usuário não corresponde ao ID na URL");
             }
 
+
+
             try
             {
-                _bookService.EditBook(book);
+                var autorExists = await _contexto.Autor.AnyAsync(a => a.Id == idAutor);
+                if (!autorExists)
+                {
+                    throw new ArgumentException("O autor especificado não existe.");
+                }
+                else
+                { 
+                    _bookService.EditBook(book);
+                }
             }
             catch (Exception)
             {
