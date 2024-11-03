@@ -75,17 +75,22 @@ namespace ApiBiblioteca.Controllers
                 return BadRequest("A lista de autores não pode estar vazia.");
             }
 
+            var autorIds = books.Select(b => b.Autor).Distinct().ToList();
+            var autoresExistentes = await _contexto.Autor
+                .Where(a => autorIds.Contains(a.Id))
+                .Select(a => a.Id)
+                .ToListAsync();
+
+            if (autoresExistentes.Count != autorIds.Count)
+            {
+                return BadRequest("Um ou mais autores não existem.");
+            }
+
+
             try
             {
-                if (await _bookService.ValidationsRangeInsert(books))
-                {
-                    _bookService.AddBooks(books);
-                    
-                }
-                else
-                {
-                    return BadRequest("Código autor invalido");
-                }                
+                _bookService.AddBooks(books);
+          
             }
             catch (Exception)
             {

@@ -58,29 +58,5 @@ namespace Services.Book
             _bookDAO.DeleteBook(book);
         }
         #endregion
-
-        #region Validations
-        public async Task<bool> ValidationsRangeInsert(List<Livros> livros)
-        {
-            // Coletar todos os AutorIds dos livros que queremos inserir
-            var autorIds = livros.Select(l => l.Id).Distinct().ToList();
-
-            // Verifica se todos os autores existem
-            var autoresExistentes = await _contexto.Autor
-                .Where(a => autorIds.Contains(a.Id))
-                .Select(a => a.Id)
-                .ToListAsync();
-
-            foreach (var livro in livros)
-            {
-                if (!autoresExistentes.Contains(livro.Id))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-        #endregion
     }
 }

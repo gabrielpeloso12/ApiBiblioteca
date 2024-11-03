@@ -18,7 +18,5 @@ namespace Services.Book
         public void EditBook(Livros book);
 
         public void DeleteBook(Livros book);
-
-        public Task<bool> ValidationsRangeInsert(List<Livros> livros);
     }
 }
